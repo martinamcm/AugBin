@@ -2,10 +2,10 @@
 
 ## [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 
-Shiny app to implement efficient analysis of mixed outcome composite responder endpoints 
+## Description
+AugBin is a Shiny app which can be used to implement efficient analysis of mixed outcome composite responder endpoints. The analysis is based on using latent variable methods to model the underlying structure of the composite endpoint, so that information in continuous components can be retained. The app also implements the commonly used 'standard binary' approach for comparison, which treats the composite as a single binary endpoint. 
 
-## Introduction
-The tutorial on this page uses an example dataset to provide step-by-step guidance for using the AugBin Shiny app to analyse mixed outcome continuous and discrete composite responder endpoints. In the case that further queries arise about the functionality of the app for specific applications, contact Martina McMenamin at <martina.mcmenamin@mrc-bsu.cam.ac.uk>.
+The tutorial below uses an example dataset to provide step-by-step guidance for using the AugBin Shiny app to analyse mixed outcome continuous and discrete composite responder endpoints. In the case that further queries arise about the functionality of the app for specific applications, contact Martina McMenamin at <martina.mcmenamin@mrc-bsu.cam.ac.uk>.
 
 ## Getting started
 
@@ -16,7 +16,7 @@ An example dataset for a composite with one continuous and one binary component 
 ## Tutorial
 
 ### Uploading data
-For illustration we use a simulated dataset where the composite endpoint is comprised of one continuous and one binary outcome. An important first step before employing the app is to have the dataset in the correct format. The columns should be organised as follows:
+A simulated dataset where the composite endpoint is comprised of one continuous and one binary outcome is used for illustration. An important first step before using the app is to have the dataset in the required format. The columns should be organised as follows:
 * patient ID 
 * treatment allocation
 * Observed continuous outcome measure(s) (may be one or two depending on the composite endpoint)
@@ -64,7 +64,7 @@ If the composite is comprised only of continuous measures a normal distribution 
 </p>
 
 ### Analysis
-The Analysis tab follows which allows the user to enter the dichotomisation threshold for the continuous components. The input depends on the structure selected as shown.
+The Analysis tab allows the user to enter the dichotomisation threshold for the continuous components. The input depends on the structure selected as shown.
 
 <p align="center">
 <img src="/Images/SS13.png" title="SS13" width="17%" /> <img src="/Images/SS13a.png" title="SS13a" width="81%" /> 
@@ -101,6 +101,3 @@ The final panel shows the goodness-of-fit for the model fitted in the augmented 
 <img src="/Images/SS12.png" title="SS12" width="80%" />
 </p>
 
-## Further details 
-
-This tutorial has illustrated the functionality of AugBin for one example. For more information on the methods go to <https://arxiv.org/abs/1902.07037> or to obtain the underlying R code, see the R folder in the repository. For any further queries email <martina.mcmenamin@mrc-bsu.cam.ac.uk>. 
