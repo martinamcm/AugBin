@@ -11,8 +11,7 @@ library(brglm)
 library(Matrix)
 library(matrixcalc)
 
-
-##Likelihood
+#Likelihood function
 
 f<-function(X,dat)
 {
@@ -72,7 +71,7 @@ f<-function(X,dat)
    pr31<-apply(mulim1,1,function(x){return(pmvnorm(lower=-Inf,upper=x,mean=0,sigma = sigcond))})
      prz12<-dmvnorm(cbind(dat[,3],dat[,4]), c(mean(muz1), mean(muz2)), Sigbiv)
   
-  ##Likelihood function
+  #Likelihood
   
   #components of likelihood,k=0,1 (binary)
   l0<-log(pr30)+log(prz12)#k=0
@@ -94,20 +93,11 @@ f<-function(X,dat)
   #-log(likelihood)
   Tfinal<-sum(t0)+sum(t1)
   
-  #print(Tfinal)
   return(-Tfinal)
 }
 
 lowerlim <- c(-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf)
 upperlim <- c(+Inf,+Inf,+Inf,+Inf,+Inf,+Inf,+Inf,+Inf,+Inf,+Inf,+Inf,+Inf,+Inf)
-
-
-
-############################
-##PROBABILITY OF RESPONSE###
-############################
-
-###LATENT VARIABLE MODEL
 
 
 ##Probability of response
@@ -153,10 +143,8 @@ probofsuccess<-function(mle,n,dat,eta)
   maxmean2=max(c(meantreat[,2],meanuntreat[,2]))
   maxmean3=max(c(meantreat[,3],meanuntreat[,3]))
   
-  #lower=c(4,4,1.5,0)
   lower=c(qnorm(1e-15,minmean1,exp(mle[7])),qnorm(1e-15,minmean2,exp(mle[8])),qnorm(1e-15,minmean3,1))
-  #upper=c(qnorm(1-1e-15,maxmean1,exp(mle[8])),qnorm(1-1e-15,maxmean2,exp(mle[9])),
-  #       qnorm(1-1e-15,maxmean3,1),qnorm(1-1e-15,maxmean4,1))
+ 
   upper=c(eta[1],eta[2],0)
   
   a=cuhre(f=integrand,nComp=2,lower=lower,upper=upper,flags=list(verbose=0,final=1,pseudo.random=0,mersenne.seed=NULL),
@@ -168,7 +156,7 @@ probofsuccess<-function(mle,n,dat,eta)
   #return(log(a$value[1]/a$value[2]))
 }
 
-
+#Partial derivatives
 
 partials<-function(mle,n,dat,eta)
 {
@@ -198,18 +186,14 @@ partials<-function(mle,n,dat,eta)
   return(c(partials.augbinOR,partials.augbinRR,partials.augbinRD,fit1))
 }
 
-
+#Box-Cox transformation
 
 boxcoxtransform=function(y,lambda)
 {
   return((y^lambda-1)/lambda)
 }
 
-
-
-
-
-####STANDARD BINARY
+#Standard binary
 
 differenceinprob.binary=function(glm1,t,x1,x2)
 {
@@ -258,13 +242,12 @@ result.bin<-as.list(NULL)
 result.latent<-as.list(NULL)
 results<-as.list(NULL)
 
-#dat<-data.frame(id,treat,Z1,Z2,Z3bin,Z10,Z20)
-#eta<-c(2,2)
+#Function for treatment effects and CIs for both methods
 
 LatVarfunc<-function(dat,eta){
   n=dim(dat)[1]
   
-  ##Starting values
+  #Starting values
   lm1<-lm(dat[,3]~dat[,2]+dat[,6])
   lm2<-lm(dat[,4]~dat[,2]+dat[,7])
   lm3<-lm(dat[,5]~dat[,2])
@@ -278,7 +261,7 @@ LatVarfunc<-function(dat,eta){
        rho13est,rho23est,lm1$coef[3],lm2$coef[3])
   X<-as.vector(X)
   
-  ##LATENT VARIABLE
+  #Latent variable
   
   mlefit=optimx(X,f,dat=dat,lower=lowerlim,upper=upperlim,method="nlminb",control=list(rel.tol=1e-12))
   mle<-coef(mlefit[1,])
@@ -313,8 +296,7 @@ LatVarfunc<-function(dat,eta){
   probresplat<-c(part[43],part[44])
   result.latent<-c(CIOR,CIRR,CIRD,probresplat)
   
-  
-  ###STANDARD BINARY
+  #Standard binary
   
   dat$resp<-ifelse(dat[,3]<=(eta[1]) & dat[,4]<=(eta[2]) & dat[,5]==0, 1,0)
   success.binary=dat$resp
