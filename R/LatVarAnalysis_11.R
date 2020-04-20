@@ -11,8 +11,7 @@ library(brglm)
 library(Matrix)
 library(matrixcalc)
 
-
-##Likelihood
+#Likelihood function
 
 f<-function(X,dat)
 {
@@ -61,7 +60,7 @@ f<-function(X,dat)
   pr31<-apply(mulim1,1,function(x){return(pmvnorm(lower=-Inf,upper=x,mean=0,sigma = sigcond))})
   prz12<-dnorm(dat[,3], mean=muz1, sd=sqrt(Sigbiv))
   
-  ##Likelihood function
+  #Likelihood
   
   #components of likelihood,k=0,1 (binary)
   l0<-log(pr30)+log(prz12)#k=0
@@ -83,7 +82,6 @@ f<-function(X,dat)
   #-log(likelihood)
   Tfinal<-sum(t0)+sum(t1)
   
-  #print(Tfinal)
   return(-Tfinal)
 }
 
@@ -91,15 +89,7 @@ lowerlim <- c(-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf)
 upperlim <- c(+Inf,+Inf,+Inf,+Inf,+Inf,+Inf,+Inf)
 
 
-
-############################
-##PROBABILITY OF RESPONSE###
-############################
-
-###LATENT VARIABLE MODEL
-
-
-##Probability of response
+#Probability of response
 integrand<-function(Zint,meantreat,meanuntreat,mle)
 {
   
@@ -145,7 +135,7 @@ probofsuccess<-function(mle,n,dat,eta)
   #return(log(a$value[1]/a$value[2]))
 }
 
-
+#Partial derivatives
 
 partials<-function(mle,n,dat,eta)
 {
@@ -175,8 +165,7 @@ partials<-function(mle,n,dat,eta)
   return(c(partials.augbinOR,partials.augbinRR,partials.augbinRD,fit1))
 }
 
-
-###AUGMENTED BINARY 
+#Box-Cox transform
 
 boxcoxtransform=function(y,lambda)
 {
@@ -184,10 +173,7 @@ boxcoxtransform=function(y,lambda)
 }
 
 
-
-
-
-####STANDARD BINARY
+#Standard binary
 
 differenceinprob.binary=function(glm1,t,x1)
 {
@@ -236,12 +222,12 @@ result.bin<-as.list(NULL)
 result.latent<-as.list(NULL)
 results<-as.list(NULL)
 
-#dat<-data.frame(id,treat,Z1,Z2,Z3bin,Z10,Z20)
-#eta<-c(2,2)
+#Function for treatment effect and CIs from both methods
+
 LatVarfunc<-function(dat,eta){
   n=dim(dat)[1]
   
-  ##Starting values
+  #Starting values
   lm1<-lm(dat[,3]~dat[,2]+dat[,5])
   lm2<-lm(dat[,4]~dat[,2])
   sig1est<-log(sqrt(var(dat[,3])))
@@ -250,7 +236,7 @@ LatVarfunc<-function(dat,eta){
   X<-c(lm1$coef[1],lm1$coef[2],lm2$coef[1],lm2$coef[2],sig1est,rho12est,lm1$coef[3])
   X<-as.vector(X)
   
-  ##LATENT VARIABLE
+  #Latent Variable method
   
   mlefit=optimx(X,f,dat=dat,lower=lowerlim,upper=upperlim,method="nlminb",control=list(rel.tol=1e-12))
   mle<-coef(mlefit[1,])
@@ -286,7 +272,7 @@ LatVarfunc<-function(dat,eta){
   result.latent<-c(CIOR,CIRR,CIRD,probresplat)
   
   
-  ###STANDARD BINARY
+  #Standard binary
   
   dat$resp<-ifelse(dat[,3]<=(eta[1]) & dat[,4]==0, 1,0)
   success.binary=dat$resp
