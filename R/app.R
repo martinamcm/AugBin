@@ -45,7 +45,6 @@ ui <- dashboardPage(
  dashboardSidebar(
      sidebarMenu(id="tab",
      menuItem("Home", tabName = "home", icon = icon("home")),
-     menuItem("Tutorial", tabName = "tutorial", icon = icon("chalkboard-teacher")),
       menuItem("Analysis", tabName = "analysis", icon = icon("chart-bar")),
       menuItem("Source code",tabName="code", icon = icon("file-code"))
     )
@@ -58,12 +57,6 @@ ui <- dashboardPage(
               fluidRow(
                 includeHTML("LandPage.html")
               )),
-      
-      tabItem(tabName = "tutorial",
-              fluidRow(
-               includeHTML("TutorialPage.html")
-                #tags$iframe(src="manual.pdf", width="900", height="600")
-              )),  
       
      tabItem(tabName = "analysis",
      fluidRow(
