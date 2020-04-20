@@ -93,4 +93,6 @@ The final panel shows the goodness-of-fit for the model fitted in the augmented 
 <img src="/Images/SS12.png" title="SS12" width="80%" />
 </p>
 
-This tutorial has illustrated the functionality of AugBin for one example. For more information on the methods go to <https://arxiv.org/abs/1902.07037> or to obtain the underlying R code, visit <https://github.com/martinamcm/Complex-Composite-Endpoints>. For any further queries email <martina.mcmenamin@mrc-bsu.cam.ac.uk>. 
+### Further details 
+
+This tutorial has illustrated the functionality of AugBin for one example. For more information on the methods go to <https://arxiv.org/abs/1902.07037> or to obtain the underlying R code, see the R folder in the repository. For any further queries email <martina.mcmenamin@mrc-bsu.cam.ac.uk>. 
