@@ -11,8 +11,7 @@ library(brglm)
 library(Matrix)
 library(matrixcalc)
 
-
-##Likelihood
+##Likelihood function
 
 f<-function(X,dat)
 {
@@ -48,14 +47,8 @@ upperlim <- c(+Inf,+Inf,+Inf,+Inf)
 
 
 
-############################
-##PROBABILITY OF RESPONSE###
-############################
+#Probability of response
 
-###LATENT VARIABLE MODEL
-
-
-##Probability of response
 integrand<-function(Zint,meantreat,meanuntreat,mle)
 {
  sigmahat<-(exp(mle[3]))^2
@@ -94,6 +87,7 @@ probofsuccess<-function(mle,n,dat,eta)
 }
 
 
+#Partial derivatives
 
 partials<-function(mle,n,dat,eta)
 {
@@ -124,7 +118,7 @@ partials<-function(mle,n,dat,eta)
 }
 
 
-###AUGMENTED BINARY 
+#Box-Cox transform
 
 boxcoxtransform=function(y,lambda)
 {
@@ -132,10 +126,7 @@ boxcoxtransform=function(y,lambda)
 }
 
 
-
-
-
-####STANDARD BINARY
+#Standard binary
 
 differenceinprob.binary=function(glm1,t,x1)
 {
@@ -184,21 +175,19 @@ result.bin<-as.list(NULL)
 result.latent<-as.list(NULL)
 results<-as.list(NULL)
 
-#dat<-data.frame(id,treat,Z1,Z2,Z3bin,Z10,Z20)
-#dat<-dat20
-#eta<-c(-1.5,-1.5)
+#Function for treat effects and CIs from both models 
 
 LatVarfunc<-function(dat,eta){
   n=dim(dat)[1]
   
-  ##Starting values
+  #Starting values
   lm1<-lm(dat[,3]~dat[,2]+dat[,4])
   sig1est<-log(var(dat[,3]))
   
   X<-c(lm1$coef[1],lm1$coef[2],sig1est,lm1$coef[3])
   X<-as.vector(X)
   
-  ##LATENT VARIABLE
+  #Latent Variable
   
   mlefit=optimx(X,f,dat=dat,lower=lowerlim,upper=upperlim,method="nlminb",control=list(rel.tol=1e-12))
   mle<-coef(mlefit[1,])
@@ -234,7 +223,7 @@ LatVarfunc<-function(dat,eta){
   result.latent<-c(CIOR,CIRR,CIRD,probresplat)
   
   
-  ###STANDARD BINARY
+  #Standard binary
   
   dat$resp<-ifelse(dat[,3]<=(eta[1]), 1,0)
   success.binary=dat$resp
@@ -261,6 +250,8 @@ LatVarfunc<-function(dat,eta){
   CI.binaryRD=c(mean.binaryRD-1.96*sqrt(var.binaryRD),mean.binaryRD,mean.binaryRD+1.96*sqrt(var.binaryRD))
   
   result.bin<-c(CI.binaryOR,CI.binaryRR,CI.binaryRD,partial.binary[13:14])
+  
+  #Latent variable residuals
   
   epshat1 <- dat[,3]-(mle[1]+mle[2]*dat[,2]+mle[4]*dat[,4])
   epshat <- as.matrix(epshat1)
