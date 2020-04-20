@@ -12,7 +12,7 @@ library(Matrix)
 library(matrixcalc)
 
 
-##Likelihood
+#Likelihood function
 
 f<-function(X,dat)
 {
@@ -51,21 +51,11 @@ f<-function(X,dat)
   #-log(likelihood)
   Tfinal<-sum(log(dmvnorm(cbind(dat[,3],dat[,4]), c(mean(muz1), mean(muz2)), Sigbiv)))
   
-  #print(Tfinal)
   return(-Tfinal)
 }
 
 lowerlim <- c(-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf)
 upperlim <- c(+Inf,+Inf,+Inf,+Inf,+Inf,+Inf,+Inf,+Inf,+Inf)
-
-
-
-############################
-##PROBABILITY OF RESPONSE###
-############################
-
-###LATENT VARIABLE MODEL
-
 
 ##Probability of response
 integrand<-function(Zint,meantreat,meanuntreat,mle)
@@ -112,7 +102,7 @@ probofsuccess<-function(mle,n,dat,eta)
   #return(log(a$value[1]/a$value[2]))
 }
 
-
+#Partial derivatives
 
 partials<-function(mle,n,dat,eta)
 {
@@ -143,7 +133,7 @@ partials<-function(mle,n,dat,eta)
 }
 
 
-###AUGMENTED BINARY 
+#Box-Cox transformation
 
 boxcoxtransform=function(y,lambda)
 {
@@ -151,10 +141,7 @@ boxcoxtransform=function(y,lambda)
 }
 
 
-
-
-
-####STANDARD BINARY
+#Standard binary
 
 differenceinprob.binary=function(glm1,t,x1,x2)
 {
@@ -203,14 +190,10 @@ result.bin<-as.list(NULL)
 result.latent<-as.list(NULL)
 results<-as.list(NULL)
 
-#dat<-data.frame(id,treat,Z1,Z2,Z3bin,Z10,Z20)
-#dat<-dat20
-#eta<-c(-1.5,-1.5)
-
 LatVarfunc<-function(dat,eta){
   n=dim(dat)[1]
   
-  ##Starting values
+  #Starting values
   lm1<-lm(dat[,3]~dat[,2]+dat[,5])
   lm2<-lm(dat[,4]~dat[,2]+dat[,6])
   sig1est<-log(var(dat[,3]))
@@ -220,7 +203,7 @@ LatVarfunc<-function(dat,eta){
   X<-c(lm1$coef[1],lm1$coef[2],lm2$coef[1],lm2$coef[2],sig1est,sig2est,rho12est,lm1$coef[3],lm2$coef[3])
   X<-as.vector(X)
   
-  ##LATENT VARIABLE
+  #Latent variable method
   
   mlefit=optimx(X,f,dat=dat,lower=lowerlim,upper=upperlim,method="nlminb",control=list(rel.tol=1e-12))
   mle<-coef(mlefit[1,])
@@ -255,8 +238,7 @@ LatVarfunc<-function(dat,eta){
   probresplat<-c(part[31],part[32])
   result.latent<-c(CIOR,CIRR,CIRD,probresplat)
   
-  
-  ###STANDARD BINARY
+  #Standard binary
   
   dat$resp<-ifelse(dat[,3]<=(eta[1]) & dat[,4]<=(eta[2]), 1,0)
   success.binary=dat$resp
