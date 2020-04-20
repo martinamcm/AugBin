@@ -4,8 +4,16 @@
 
 Shiny app to implement efficient analysis of mixed outcome composite responder endpoints 
 
-### Introduction
+## Introduction
 The tutorial on this page uses an example dataset to provide step-by-step guidance for using the AugBin Shiny app to analyse mixed outcome continuous and discrete composite responder endpoints. In the case that further queries arise about the functionality of the app for specific applications, contact Martina McMenamin at <martina.mcmenamin@mrc-bsu.cam.ac.uk>.
+
+## Getting started
+
+To access the AugBin GUI, go to https://martinamcm.shinyapps.io/augbin/. 
+
+An example dataset for a composite with one continuous and one binary component is available in the repository.
+
+## Tutorial
 
 ### Uploading data
 For illustration we use a simulated dataset where the composite endpoint is comprised of one continuous and one binary outcome. An important first step before employing the app is to have the dataset in the correct format. The columns should be organised as follows:
@@ -93,6 +101,6 @@ The final panel shows the goodness-of-fit for the model fitted in the augmented 
 <img src="/Images/SS12.png" title="SS12" width="80%" />
 </p>
 
-### Further details 
+## Further details 
 
 This tutorial has illustrated the functionality of AugBin for one example. For more information on the methods go to <https://arxiv.org/abs/1902.07037> or to obtain the underlying R code, see the R folder in the repository. For any further queries email <martina.mcmenamin@mrc-bsu.cam.ac.uk>. 
