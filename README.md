@@ -81,7 +81,7 @@ Clicking the 'Run Analysis' button starts the analysis. This stage involves the 
 7. These are used to give 95% confidence intervals
 8. A logistic regression model on the overall response endpoint is implemented for comparison (Standard Binary method)
 
-This process may take anywhere between a few seconds and a few minutes depending on the complexity of the endpoint. A loading bar will show to indicate when the analysis is still running and if any errors occur then they will be displayed in the Analysis panel. The output is as shown below where the probability of response in each arm for both methods is shown in a table. The plots indicate the treatment effect point estimates and 95% confidence intervals. Note that the improvement in efficiency from the augmented approach depends on the response in each arm and the dichotisation threshold, as illustrated.
+This process may take anywhere between a few seconds and a few minutes depending on the complexity of the endpoint. A loading bar will show to indicate when the analysis is still running and if any errors occur then they will be displayed in the Analysis panel. The output is as shown below where the probability of response in each arm for both methods is shown in a table. The plots indicate the treatment effect point estimates and 95% confidence intervals. Note that the improvement in efficiency from the augmented approach depends on the response in each arm and the dichotimisation threshold, as illustrated.
 
 <p align="center">
 <img src="/Images/SS9.png" title="SS9" width="80%" /> <img src="/Images/SS10.png" title="SS10" width="80%" />
